@@ -10,10 +10,14 @@ head abc.txt
 
 #### 指定打印显示前几行
 
-> `-n`
+> `-n`或`-[linenumber]`
 
 ```shell
 head -n 5 abc.txt
+
+head -5 abc.txt
+
+以上两种方式等同
 ```
 
 #### 指定显示前几个字节
