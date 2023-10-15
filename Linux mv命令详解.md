@@ -38,6 +38,18 @@ mv -i abc.txt def/
 mv -n abc.txt def/
 ```
 
+#### 重命名文件
+
+```shell
+mv abc.txt def.txt
+```
+
+#### 重命名目录
+
+```shell
+mv abc/ def/
+```
+
 #### 打印调试信息
 
 > `-v`或`--verbose`
