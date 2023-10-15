@@ -39,3 +39,11 @@ rm -i abc/
 ```shell
 rm -I abc/
 ```
+
+#### 忽略不存在的文件和参数，强制删除，不报错
+
+> `-f`或`--force`
+
+```shell
+rm -rf abc/
+```
