@@ -19,3 +19,9 @@ cp abc.txt def.txt a/
 ```shell
 cp -r abc/ a/
 ```
+
+#### 复制到指定目录，并改名
+
+```shell
+cp abc.txt abc/def.txt
+```
