@@ -106,5 +106,7 @@ Hello
 This is a here document
 END
 
-cat从here文档接收输入的命令。<< END和END之间的行是输入行。当shell看到<< END时，它将读取输入，直到遇到END分隔符。然后，它将这些行作为输入传递给cat命令，最后cat命令将它们输出到终端。
+cat从here文档接收输入的命令。<< END和END之间的行是输入行。当shell看到<< END时，它将读取输入，直到遇到END分隔符。
+
+然后，它将这些行作为输入传递给cat命令，最后cat命令将它们输出到终端。
 ```
