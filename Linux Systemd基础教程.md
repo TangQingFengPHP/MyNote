@@ -6,7 +6,7 @@ systemd提供积极的并行化功能，使用套接字和D-Bus激活来启动�
 
 其他部分包括日志记录守护进程、控制基本系统配置(如主机名、日期、区域设置)的实用程序、维护登录用户和正在运行的容器和虚拟机列表、系统帐户、运行时目录和设置的实用程序，以及管理简单网络配置、网络时间同步、日志转发和名称解析的守护进程。
 
-![alt text](image-18.png)
+![alt text](/images/systemd-image-18.png)
 
 ## 二、systemd出世的目的？
 
@@ -108,9 +108,9 @@ systemctl list-units 列出所有单元
 systemctl list-units nginx.service 指定单元
 ```
 
-![alt text](image-1.png)
+![alt text](/images/systemd-image-1.png)
 
-![alt text](image-2.png)
+![alt text](/images/systemd-image-2.png)
 
 LOAD字段可能的值有：loaded, not-found, bad-setting, error, masked;
 
@@ -144,7 +144,7 @@ systemctl status nginx php-fpm
 systemctl status 924，924是PID，此时对应的是php-fpm进程
 ```
 
-![alt text](image-3.png)
+![alt text](/images/systemd-image-3.png)
 
 status命令输出人类可读的格式文本，如果想要输出计算机可解析的格式，则使用show命令代替。
 
@@ -173,7 +173,7 @@ systemctl show
 
 systemctl show nginx
 ```
-![alt text](image-4.png)
+![alt text](/images/systemd-image-4.png)
 
 * `cat PATTERN…`：显示单元的配置文件内容，每个文件前面都有一个包含文件名的注释，如果磁盘上的任何单元文件被更新，并且没有发出daemon-reload命令，此时显示的配置文件内容不是最新的。
 
@@ -182,7 +182,7 @@ systemctl show nginx
 ```shell
 systemctl cat nginx php-fpm
 ```
-![alt text](image-5.png)
+![alt text](/images/systemd-image-5.png)
 
 * `help PATTERN…|PID…`：显示指定单元的手册页，也可传PID，当然如果在配置中没有定义手册这一项，则不会输出。
 
@@ -191,7 +191,7 @@ systemctl cat nginx php-fpm
 ```shell
 systemctl help nginx
 ```
-![alt text](image-6.png)
+![alt text](/images/systemd-image-6.png)
 
 * `list-dependencies [UNIT...]`：显示指定单位所需和想要的依赖单位。这将递归列出遵循 Requires=、Requisite=、Wants=、ConsistsOf=、BindsTo= 和 Upholds= 依赖项的单元。如果未指定单位，则默认是default.target。
 
@@ -205,9 +205,9 @@ systemctl list-dependencies
 systemctl list-dependencies nginx
 ```
 
-![alt text](image-7.png)
+![alt text](/images/systemd-image-7.png)
 
-![alt text](image-8.png)
+![alt text](/images/systemd-image-8.png)
 
 * `start PATTERN…`：启动单元，或者叫激活指定的单元，可以传--all启动所有单元
 
@@ -275,7 +275,7 @@ systemctl try-reload-or-restart nginx php-fpm
 
 * `isolate [UNIT]`：启动指定的单元及其依赖项并停止所有其他单元，除非它们具有 IgnoreOnIsolate=yes选项。如果给出的单元名称没有扩展名，则将假定扩展名为“.target”。
 
-此命令很危险，因为它会立即停止新目标中未启用的进程，可能包括您当前正在使用的图形环境或终端。
+此命令很危险，因为它会立即停止新目标中未启用的进程，可能包括当前正在使用的图形环境或终端。
 
 此命令仅在启用了AllowIsolate的设备上才允许执行此操作。
 
@@ -287,7 +287,9 @@ systemctl isolate nginx
 
 * `freeze PATTERN…`：冻结指定的单元
 
-冻结该单元将导致cgroup中与该单元对应的所有进程被挂起。被挂起意味着单元的进程在解冻之前不会被安排在CPU上运行。注意，该命令仅支持使用统一cgroup层次结构的系统。单元在我们对单元执行作业之前自动解冻，例如，在单元停止之前。
+冻结该单元将导致cgroup中与该单元对应的所有进程被挂起。被挂起意味着单元的进程在解冻之前不会被安排在CPU上运行。
+
+注意，该命令仅支持使用统一cgroup层次结构的系统。单元在我们对单元执行作业之前自动解冻，例如，在单元停止之前。
 
 示例：
 
@@ -307,7 +309,15 @@ systemctl thaw nginx php-fpm
 
 * `set-property UNIT PROPERTY=VALUE…`：
 
-在运行时设置支持的指定单元属性。这允许在运行时更改配置参数属性，例如资源控制设置。并非所有属性都可以在运行时更改，但是许多资源控制设置可以。这些更改将立即应用，并存储在磁盘上以备以后的引导，除非传递了——runtime参数，在这种情况下，这些设置只应用到下一次重新引导。
+在运行时设置支持的指定单元属性。
+
+这允许在运行时更改配置参数属性，例如资源控制设置。
+
+并非所有属性都可以在运行时更改，但是许多资源控制设置可以。
+
+这些更改将立即应用，并存储在磁盘上以备以后的引导，
+
+除非传递了--runtime参数，在这种情况下，这些设置只应用到下一次重新引导。
 
 如果指定的单元处于非活动状态，则更改将仅存储在磁盘上，因此它们将在单元启动时生效。
 
@@ -339,7 +349,9 @@ systemctl set-property avahi-daemon.service IPAddressDeny=
 
 * `enable UNIT…, enable PATH…`：
 
-启用一个或多个单元或单元实例。将创建一组符号链接，在创建了符号链接之后，系统管理器配置将被重新加载(在某种程度上相当于daemon-reload)，这并不会同时启动任何已启用的单元，只是systemd读取到了此单元，可以在systemd开机自启时自动启动，如果需要启用后立马启动，则可以接--now，内部调用start命令启动。
+启用一个或多个单元或单元实例。
+
+将创建一组符号链接，在创建了符号链接之后，系统管理器配置将被重新加载(在某种程度上相当于daemon-reload)，这并不会同时启动任何已启用的单元，只是systemd读取到了此单元，可以在systemd开机自启时自动启动，如果需要启用后立马启动，则可以接--now，内部调用start命令启动。
 
 示例：
 
@@ -349,11 +361,15 @@ systemctl enable nginx php-fpm
 
 * `disable UNIT…`：
 
-禁用一个或多个单位，使得不能在开机时自动启动。这将从单元配置目录中删除到支持指定单元的单元文件的所有符号链接，并因此撤消由enable或link所做的任何更改。
+禁用一个或多个单位，使得不能在开机时自动启动。
+
+这将从单元配置目录中删除到支持指定单元的单元文件的所有符号链接，并因此撤消由enable或link所做的任何更改。
 
 除了指定的单元外，此单元文件的 [Install] 部分中包含的 Also= 设置中列出的所有单元均被禁用。
 
-该命令在完成操作后隐式地重新加载系统管理器配置，即执行daemon-reload。注意，该命令不会隐式停止正在禁用的单元。如果需要这样做，可以将该命令与--now开关结合使用，内部调用了stop命令。
+该命令在完成操作后隐式地重新加载系统管理器配置，即执行daemon-reload。
+
+注意，该命令不会隐式停止正在禁用的单元。如果需要这样做，可以将该命令与--now开关结合使用，内部调用了stop命令。
 
 示例：
 
@@ -379,11 +395,17 @@ systemctl reenable nginx php-fpm
 systemctl is-enabled nginx php-fpm
 ```
 
-![alt text](image-9.png)
+![alt text](/images/systemd-image-9.png)
 
 * `mask UNIT…`：
 
-屏蔽指定的单元。这将把这些单元文件链接到/dev/null，使它们无法启动。这是一个更强的disable版本，因为它禁止所有类型的单元激活，包括启用和手动激活。请谨慎使用此选项。这允许--runtime选项暂时屏蔽，直到下次重新启动系统。--now选项可用于确保单元也被停止。这个命令只需要有效的单元名，它不接受单元文件路径。
+屏蔽指定的单元。这将把这些单元文件链接到/dev/null，使它们无法启动。
+
+这是一个更强的disable版本，因为它禁止所有类型的单元激活，包括启用和手动激活。
+
+请谨慎使用此选项。这允许--runtime选项暂时屏蔽，直到下次重新启动系统。
+
+--now选项可用于确保单元也被停止。这个命令只需要有效的单元名，它不接受单元文件路径。
 
 示例：
 
@@ -403,7 +425,7 @@ systemctl unmask nginx php-fpm
 
 将指定单元文件还原到它们的供应商版本。该命令删除修改指定单元的插入式配置文件，以及覆盖匹配供应商提供的单元文件的任何用户配置的单元文件。
 
-具体来说，对于一个单元“foo.service“匹配的目录”foo.service.D/"及其包含的所有文件被删除，包括持久配置目录和运行时配置目录(即/etc/systemd/system和/run/systemd/system)下的文件;
+具体来说，对于一个单元“foo.service“匹配的目录”foo.service.d/"及其包含的所有文件被删除，包括持久配置目录和运行时配置目录(即/etc/systemd/system和/run/systemd/system)下的文件;
 
 同样，如果一个单元被屏蔽，它将被解除屏蔽。
 
@@ -445,7 +467,7 @@ systemctl edit nginx php-fpm
 systemctl get-default
 ```
 
-![alt text](image-10.png)
+![alt text](/images/systemd-image-10.png)
 
 * `set-default TARGET`：设置默认的target，实际上是将default.target的符号链接设置为指定的目标单元
 
@@ -465,7 +487,7 @@ systemctl set-default multi-user.target
 systemctl list-machines
 ```
 
-![alt text](image-11.png)
+![alt text](/images/systemd-image-11.png)
 
 > 任务命令
 
@@ -477,7 +499,7 @@ systemctl list-machines
 systemctl list-jobs
 ```
 
-![alt text](image-12.png)
+![alt text](/images/systemd-image-12.png)
 
 * `cancel [JOBID…]`：取消指定的任务，通过任务id来指定，如果没有指定任务id，则取消所有待处理的任务。
 
@@ -613,7 +635,7 @@ systemctl hybrid-sleep
 
 注意，如果指定 -t help，则打印出所有可用的类型值
 
-![alt text](image-13.png)
+![alt text](/images/systemd-image-13.png)
 
 示例：
 
@@ -637,7 +659,7 @@ systemctl status --state=failed
 systemctl show -p LogLevel
 ```
 
-![alt text](image-14.png)
+![alt text](/images/systemd-image-14.png)
 
 * `-a, --all`：
 
@@ -731,7 +753,7 @@ systemctl status -o short-iso
 systemctl list-units --plain
 ```
 
-![alt text](image-15.png)
+![alt text](/images/systemd-image-15.png)
 
 * `-h, --help`：打印帮助信息
 
@@ -997,7 +1019,7 @@ HUP是hang up的缩写，$MAINPID是服务的主进程的进程ID，此命令作
 
 * TimeoutStopSec=：配置等待每个ExecStop=命令的时间。如果其中任何一个超时，则跳过后续的ExecStop=命令，值的单位如上。
 
-* TimeoutSec=：TimeoutStartSec=和TimeoutStopSec=的简写
+* TimeoutSec=：TimeoutStartSec=和TimeoutStopSec=组合的简写
 
 * RuntimeMaxSec=：服务运行的最大时间。如果使用了此选项，并且服务活动的时间超过了指定的时间，那么它将被终止并进入故障状态。
 
@@ -1204,7 +1226,7 @@ journalctl -u nginx -o json-pretty --output-fields=PRIORITY,__CURSOR
 
 可用于打印主机名、图标名、设备类型、机器ID、操作系统类型、内核及其架构类型等等。
 
-![alt text](image.png)
+![alt text](/images/systemd-image.png)
 
 > systemd-analyze
 
@@ -1231,7 +1253,7 @@ graphical.target reached after 13.117s in userspace
 systemd-analyze critical-chain
 ```
 
-![alt text](image-16.png)
+![alt text](/images/systemd-image-16.png)
 
 该命令为每个指定的单元或默认目标打印时间关键单元树。
 
@@ -1241,7 +1263,7 @@ systemd-analyze critical-chain
 systemd-analyze blame
 ```
 
-![alt text](image-17.png)
+![alt text](/images/systemd-image-17.png)
 
 4. 可用使用systemd-analyze生成一个矢量图形文件，显示启动过程中发生的事件
 
@@ -1259,7 +1281,27 @@ systemd-analyze verify /etc/systemd/system/my-custom-service.service
 
 该命令分析单元文件并报告任何语法错误、丢失文件或其他问题。
 
-## 八、总结
+## 八、配置示例
+
+> nginx.service配置示例 
+
+![alt text](/images/systemd-image-19.png)
+
+> mysqld.service配置示例
+
+![alt text](/images/systemd-image-20.png)
+
+> php-fpm.service配置示例
+
+![alt text](/images/systemd-image-21.png)
+
+> supervisor.service配置示例
+
+![alt text](/images/systemd-image-22.png)
+
+可以先从这些著名的软件服务中学习。
+
+## 九、总结
 
 systemd整个系统架构非常复杂，此处只是基本使用，欲深入研究其内部细节，需查看官方文档或源码研究学习。
 
