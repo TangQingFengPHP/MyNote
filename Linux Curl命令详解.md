@@ -534,3 +534,15 @@ curl -v https://example.com
 
 curl -w '%{response_code}\n' https://example.com
 ```
+
+* `-X, --request <method>`
+
+```
+指定http请求的方法，如：GET, POST, PUT, PATCH, DELETE
+
+示例：
+
+curl -X DELETE https://example.com
+
+curl -X PUT localhost:8080/employees/3 -H 'Content-type:application/json' -d '{"name": "Samwise Gamgee", "role": "ring bearer"}'
+``
