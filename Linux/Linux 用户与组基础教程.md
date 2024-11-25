@@ -237,8 +237,3 @@ sudo chage -M 90 alice
 ```shell
 sudo chage -l alice
 ```
-
-
-
-
-
