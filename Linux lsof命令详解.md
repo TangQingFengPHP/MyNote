@@ -56,28 +56,28 @@ lsof | less
 输出内容示例如下：  
 
 ```shell
-COMMAND    PID  TID         USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
-systemd      1              root  cwd       DIR              253,0       224         64 /
-systemd      1              root  rtd       DIR              253,0       224         64 /
-systemd      1              root  txt       REG              253,0   1632776     308905 /usr/lib/systemd/systemd
-systemd      1              root  mem       REG              253,0     20064      16063 /usr/lib64/libuuid.so.1.3.0
-systemd      1              root  mem       REG              253,0    265576     186547 /usr/lib64/libblkid.so.1.1.0
-systemd      1              root  mem       REG              253,0     90248      16051 /usr/lib64/libz.so.1.2.7
-systemd      1              root  mem       REG              253,0    157424      16059 /usr/lib64/liblzma.so.5.2.2
-systemd      1              root  mem       REG              253,0     23968      59696 /usr/lib64/libcap-ng.so.0.0.0
-systemd      1              root  mem       REG              253,0     19896      59686 /usr/lib64/libattr.so.1.1.0
-systemd      1              root  mem       REG              253,0     19248      15679 /usr/lib64/libdl-2.17.so
-systemd      1              root  mem       REG              253,0    402384      16039 /usr/lib64/libpcre.so.1.2.0
-systemd      1              root  mem       REG              253,0   2156272      15673 /usr/lib64/libc-2.17.so
-systemd      1              root  mem       REG              253,0    142144      15699 /usr/lib64/libpthread-2.17.so
-systemd      1              root  mem       REG              253,0     88720         84 /usr/lib64/libgcc_s-4.8.5-20150702.so.1
-systemd      1              root  mem       REG              253,0     43712      15703 /usr/lib64/librt-2.17.so
-systemd      1              root  mem       REG              253,0    277808     229793 /usr/lib64/libmount.so.1.1.0
-systemd      1              root  mem       REG              253,0     91800      76005 /usr/lib64/libkmod.so.2.2.10
-systemd      1              root  mem       REG              253,0    127184      59698 /usr/lib64/libaudit.so.1.0.0
-systemd      1              root  mem       REG              253,0     61680     229827 /usr/lib64/libpam.so.0.83.1
-systemd      1              root  mem       REG              253,0     20048      59690 /usr/lib64/libcap.so.2.22
-systemd      1              root  mem       REG              253,0    155744      16048 /usr/lib64/libselinux.so.1
+COMMAND  PID  TID  USER   FD  TYPE  DEVICE  SIZE/OFF    NODE NAME
+systemd    1       root  cwd   DIR   253,0       224      64 /
+systemd    1       root  rtd   DIR   253,0       224      64 /
+systemd    1       root  txt   REG   253,0   1632776  308905 /usr/lib/systemd/systemd
+systemd    1       root  mem   REG   253,0     20064   16063 /usr/lib64/libuuid.so.1.3.0
+systemd    1       root  mem   REG   253,0    265576  186547 /usr/lib64/libblkid.so.1.1.0
+systemd    1       root  mem   REG   253,0     90248   16051 /usr/lib64/libz.so.1.2.7
+systemd    1       root  mem   REG   253,0    157424   16059 /usr/lib64/liblzma.so.5.2.2
+systemd    1       root  mem   REG   253,0     23968   59696 /usr/lib64/libcap-ng.so.0.0.0
+systemd    1       root  mem   REG   253,0     19896   59686 /usr/lib64/libattr.so.1.1.0
+systemd    1       root  mem   REG   253,0     19248   15679 /usr/lib64/libdl-2.17.so
+systemd    1       root  mem   REG   253,0    402384   16039 /usr/lib64/libpcre.so.1.2.0
+systemd    1       root  mem   REG   253,0   2156272   15673 /usr/lib64/libc-2.17.so
+systemd    1       root  mem   REG   253,0    142144   15699 /usr/lib64/libpthread-2.17.so
+systemd    1       root  mem   REG   253,0     88720      84 /usr/lib64/libgcc_s-4.8.5-20150702.so.1
+systemd    1       root  mem   REG   253,0     43712   15703 /usr/lib64/librt-2.17.so
+systemd    1       root  mem   REG   253,0    277808  229793 /usr/lib64/libmount.so.1.1.0
+systemd    1       root  mem   REG   253,0     91800   76005 /usr/lib64/libkmod.so.2.2.10
+systemd    1       root  mem   REG   253,0    127184   59698 /usr/lib64/libaudit.so.1.0.0
+systemd    1       root  mem   REG   253,0     61680  229827 /usr/lib64/libpam.so.0.83.1
+systemd    1       root  mem   REG   253,0     20048   59690 /usr/lib64/libcap.so.2.22
+systemd    1       root  mem   REG   253,0    155744   16048 /usr/lib64/libselinux.so.1
 ```
 
 > lsof输出各列信息的解释如下：
