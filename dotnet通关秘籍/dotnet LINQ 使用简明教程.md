@@ -774,7 +774,7 @@ foreach (var group in GroupByMS)
 
 **`Inner Join`**
 
-![alt text](image.png)
+![alt text](/images/dotnet/linq-image2.png)
 
 **示例**
 
@@ -922,7 +922,7 @@ class Program
 
 **`Left Outer Join`**
 
-![alt text](image-1.png)
+![alt text](/images/dotnet/linq-image1.png)
 
 **示例**
 
