@@ -147,6 +147,87 @@ Consumer<String> consumer = s -> System.out.println(s);
 consumer.accept("Hello World!");
 ```
 
+#### Supplier<T>（只提供数据，有返回值）
+
+* 传统写法
+
+```java
+Supplier<String> supplier = new Supplier<String>() {
+            @Override
+            public String get() {
+                return "Hello from anonymous class";
+            }
+        };
+
+System.out.println(supplier.get());
+```
+
+* Lambda 
+
+```java
+Supplier<String> supplier = () -> "Hello from Lambda";
+```
+
+* 使用方法引用
+
+```java
+public class Demo {
+    public static String greeting() {
+        return "Hello!";
+    }
+
+    public static void main(String[] args) {
+        Supplier<String> supplier = Demo::greeting;
+        System.out.println(supplier.get());
+    }
+}
+```
+
+* 配合 `Optional` 使用
+
+```java
+import java.util.Optional;
+import java.util.function.Supplier;
+
+public class OptionalSupplierExample {
+    public static void main(String[] args) {
+        String name = null;
+
+        Supplier<String> defaultSupplier = () -> "Default Name";
+        String result = Optional.ofNullable(name).orElseGet(defaultSupplier);
+
+        System.out.println(result); // 输出 Default Name
+    }
+}
+```
+
+* 延迟对象创建（惰性加载）
+
+```java
+public class HeavyObject {
+    public HeavyObject() {
+        System.out.println("HeavyObject 构造函数被调用");
+    }
+}
+
+public class LazyLoader {
+    public static void load(Supplier<HeavyObject> supplier, boolean needed) {
+        if (needed) {
+            HeavyObject obj = supplier.get();
+            System.out.println("对象已创建");
+        } else {
+            System.out.println("未使用对象，无需创建");
+        }
+    }
+
+    public static void main(String[] args) {
+        load(HeavyObject::new, false); // HeavyObject 不会被创建
+        load(HeavyObject::new, true);  // 会创建
+    }
+}
+```
+
+
 #### Function<T, R>（转换型接口）
 
 传统写法
