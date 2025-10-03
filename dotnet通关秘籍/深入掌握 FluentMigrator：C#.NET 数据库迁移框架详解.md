@@ -106,7 +106,7 @@ var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
 runner.MigrateUp();   // 或 runner.MigrateDown(targetVersion);
 ```
 
-![alt text](image-1.png)
+![alt text](../images/dotnet/fluent-migrator-image-1.png)
 
 ### 核心概念
 
