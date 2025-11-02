@@ -93,6 +93,10 @@
     * `double CompactionPercentage`：内存压力下压缩比例（`.NET 6+`）。
 
 
+> 注意：
+> 旧版本.net 使用 `System.Runtime.Caching`
+> 新版本.net 使用 `Microsoft.Extensions.Caching.Memory`
+
 
 ### API 用法
 
