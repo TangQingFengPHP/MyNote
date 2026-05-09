@@ -1236,17 +1236,12 @@ ASP.NET Core 管道负责扩展认证、限流、日志等能力
 
 ### 参考资料
 
-* Microsoft Learn：Getting started with YARP  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started
+* [Microsoft Learn：Getting started with YARP](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started)
 
-* Microsoft Learn：YARP Configuration Files  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/config-files
+* [Microsoft Learn：YARP Configuration Files](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/config-files)
 
-* Microsoft Learn：YARP Load Balancing  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/load-balancing
+* [Microsoft Learn：YARP Load Balancing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/load-balancing)
 
-* Microsoft Learn：YARP Request and Response Transforms  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/transforms
+* [Microsoft Learn：YARP Request and Response Transforms](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/transforms)
 
-* NuGet：Yarp.ReverseProxy  
-  https://www.nuget.org/packages/Yarp.ReverseProxy
+* [NuGet：Yarp.ReverseProxy](https://www.nuget.org/packages/Yarp.ReverseProxy)
