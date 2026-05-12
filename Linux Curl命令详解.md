@@ -241,6 +241,37 @@ curl -g "https://example.com/{[]}}}}"
 curl -I https://example.com
 ```
 
+* `-i`
+
+```
+多输出：
+状态行（如 HTTP/1.1 200 OK）
+响应头（Content-Type、Date 等）
+```
+
+示例：
+
+```shell
+curl -i http://localhost:5000/api/products
+```
+
+常见用途
+
+`-i` 很适合用来：
+
+* 调试接口（看状态码是否 200 / 404 / 500）
+* 查看返回类型（JSON、HTML、文件等）
+* 检查服务器返回的 header（如 token、cookie、缓存策略）
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 123
+Date: Tue, 12 May 2026 10:00:00 GMT
+
+[{"id":1,"name":"Product A"}, {"id":2,"name":"Product B"}]
+```
+
 * `-H, --header <header/@file>`
 
 ```
