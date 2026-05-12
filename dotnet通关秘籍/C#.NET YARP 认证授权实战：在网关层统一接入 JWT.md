@@ -939,11 +939,8 @@ Transform 可以把身份信息传给后端
 
 ### 参考资料
 
-* Microsoft Learn：YARP Authentication and Authorization  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/authn-authz
+* [Microsoft Learn：YARP Authentication and Authorization](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/authn-authz)
 
-* Microsoft Learn：Configure JWT bearer authentication in ASP.NET Core  
-  https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication
+* [Microsoft Learn：Configure JWT bearer authentication in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication)
 
-* Microsoft Learn：Policy-based authorization in ASP.NET Core  
-  https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies
+* [Microsoft Learn：Policy-based authorization in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies)
