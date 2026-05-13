@@ -1,5 +1,3 @@
-# 别再误会 SELECT 1：MySQL 常量查询与存在性判断实战
-
 ### 简介
 
 `SELECT 1` 是 MySQL 里很常见的一句 SQL。
