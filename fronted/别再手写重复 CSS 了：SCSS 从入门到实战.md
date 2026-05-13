@@ -609,6 +609,84 @@ $primary: #1677ff;
 
 现在 Sass 更推荐 `@use` 和 `@forward`。原因是 `@import` 容易造成全局变量污染、重复加载、来源不清楚等问题。
 
+#### @use 和 @forward 的区别
+
+`@use` 和 `@forward` 都和模块有关，但职责不一样。
+
+| 语法 | 作用 | 更像什么 | 是否能在当前文件直接使用成员 |
+| --- | --- | --- | --- |
+| `@use` | 加载一个模块，并在当前文件中使用它的变量、函数、mixin | “拿来用” | 可以 |
+| `@forward` | 转发另一个模块，让别的文件从当前文件统一引入 | “中转出口” | 不可以 |
+
+简单说：
+
+```text
+@use：当前文件要用某个模块
+@forward：当前文件不一定用，只负责把模块再导出去
+```
+
+比如 `_variables.scss` 里放变量：
+
+```scss
+$primary: #1677ff;
+$radius: 6px;
+```
+
+`button.scss` 要使用这些变量，就用 `@use`：
+
+```scss
+@use "./variables" as vars;
+
+.button {
+  color: #fff;
+  border-radius: vars.$radius;
+  background: vars.$primary;
+}
+```
+
+这里的 `vars.$primary`、`vars.$radius` 可以直接在 `button.scss` 中使用。
+
+如果是 `index.scss` 这种统一出口文件，一般用 `@forward`：
+
+```scss
+@forward "variables";
+@forward "mixins";
+@forward "functions";
+```
+
+`index.scss` 的作用不是写具体样式，而是把多个小模块整理成一个入口。其他文件只需要引入这个入口：
+
+```scss
+@use "./index" as ui;
+
+.card {
+  border-radius: ui.$radius;
+  background: ui.$primary;
+}
+```
+
+需要注意：`@forward` 只是转发，不会把成员变成当前文件可直接使用的变量。
+
+```scss
+@forward "variables";
+
+.box {
+  // 错误：@forward 不等于 @use，当前文件不能直接用 $primary
+  color: $primary;
+}
+```
+
+如果一个文件既要转发变量，又要自己使用变量，需要同时写：
+
+```scss
+@forward "variables";
+@use "variables" as vars;
+
+.box {
+  color: vars.$primary;
+}
+```
+
 #### _variables.scss
 
 ```scss
