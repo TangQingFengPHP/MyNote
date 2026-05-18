@@ -892,8 +892,6 @@ Route.CorsPolicy 把策略挂到代理路由上
 
 ### 参考资料
 
-* Microsoft Learn：YARP Cross-Origin Requests  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/cors
+* [Microsoft Learn：YARP Cross-Origin Requests](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/cors)
 
-* Microsoft Learn：Enable Cross-Origin Requests in ASP.NET Core  
-  https://learn.microsoft.com/en-us/aspnet/core/security/cors
+* [Microsoft Learn：Enable Cross-Origin Requests in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/cors)
