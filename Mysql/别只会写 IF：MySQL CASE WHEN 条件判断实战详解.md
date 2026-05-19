@@ -1,5 +1,3 @@
-# 别只会写 IF：MySQL CASE WHEN 条件判断实战详解
-
 ### 简介
 
 `CASE WHEN` 是 MySQL 里用来做条件判断的表达式。
