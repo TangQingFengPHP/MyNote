@@ -1085,13 +1085,14 @@ Jaeger / Tempo / APM 根据 TraceId 串起完整链路
 
 网关层接入链路追踪以后，排查方式会从“翻多份日志猜问题”变成“按 TraceId 看完整请求路径”。这对微服务项目非常关键，尤其是网关、认证、服务发现、灰度发布都叠加以后，Trace 基本属于必备能力。
 
+### 项目地址
+
+[https://github.com/TangCSharp/YarpOtelDemo](https://github.com/TangCSharp/YarpOtelDemo)
+
 ### 参考资料
 
-* Microsoft Learn：YARP Distributed tracing  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/distributed-tracing
+* [Microsoft Learn：YARP Distributed tracing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/distributed-tracing)
 
-* Microsoft Learn：.NET observability with OpenTelemetry  
-  https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-with-otel
+* [Microsoft Learn：.NET observability with OpenTelemetry](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-with-otel)
 
-* Microsoft Learn：Diagnosing YARP-based proxies  
-  https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/diagnosing-yarp-issues
+* [Microsoft Learn：Diagnosing YARP-based proxies](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/diagnosing-yarp-issues)
