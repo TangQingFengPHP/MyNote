@@ -1,5 +1,3 @@
-# Kotlin 高阶函数别只会 map：从 Lambda 到实战封装
-
 ### 简介
 
 Kotlin 高阶函数（Higher-order Function）一句话就能说清楚：
