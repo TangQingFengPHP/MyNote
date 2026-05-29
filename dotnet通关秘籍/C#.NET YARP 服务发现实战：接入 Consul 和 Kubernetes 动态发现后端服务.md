@@ -241,7 +241,8 @@ public sealed class ConsulRegistrationService : IHostedService
     {
         var serviceName = _configuration["Service:Name"] ?? "product-service";
         var serviceId = _configuration["Service:Id"] ?? $"{serviceName}-{Guid.NewGuid():N}";
-        var serviceAddress = _configuration["Service:Address"] ?? "host.docker.internal";
+        var serviceAddress = _configuration["Service:Address"] ?? "localhost";
+        var healthCheckAddress = _configuration["Service:HealthCheckAddress"] ?? serviceAddress;
         var servicePort = int.Parse(_configuration["Service:Port"] ?? "5101");
 
         _serviceId = serviceId;
@@ -255,7 +256,7 @@ public sealed class ConsulRegistrationService : IHostedService
             Tags = new[] { "yarp", "product" },
             Check = new AgentServiceCheck
             {
-                HTTP = $"http://{serviceAddress}:{servicePort}/health",
+                HTTP = $"http://{healthCheckAddress}:{servicePort}/health",
                 Interval = TimeSpan.FromSeconds(10),
                 Timeout = TimeSpan.FromSeconds(2),
                 DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1)
@@ -283,13 +284,28 @@ public sealed class ConsulRegistrationService : IHostedService
 }
 ```
 
-这里有一个容易踩坑的点：
+这里有一个容易踩坑的点：服务地址和健康检查地址最好分开。
 
 ```csharp
-var serviceAddress = _configuration["Service:Address"] ?? "host.docker.internal";
+var serviceAddress = _configuration["Service:Address"] ?? "localhost";
+var healthCheckAddress = _configuration["Service:HealthCheckAddress"] ?? serviceAddress;
 ```
 
-如果 Consul 运行在 Docker 容器里，而 `ProductService` 运行在宿主机上，注册成 `localhost` 通常不对。因为对 Consul 容器来说，`localhost` 指的是 Consul 容器自己，不是宿主机上的服务。
+`serviceAddress` 会写进 Consul 的服务实例信息里，后面 `Gateway` 会读取它，并拼成：
+
+```text
+http://{address}:{port}/
+```
+
+所以如果 `Gateway` 直接运行在宿主机上，`serviceAddress` 更适合写成：
+
+```text
+localhost
+```
+
+`healthCheckAddress` 是 Consul 探活用的地址。
+
+如果 Consul 运行在 Docker 容器里，而 `ProductService` 运行在宿主机上，Consul 容器访问 `localhost` 通常是不对的。因为对 Consul 容器来说，`localhost` 指的是 Consul 容器自己，不是宿主机上的服务。
 
 在 macOS 和 Windows Docker Desktop 里，`host.docker.internal` 通常可以从容器访问宿主机。
 
@@ -304,7 +320,8 @@ dotnet run --project ProductService/ProductService.csproj \
   --urls http://localhost:5101 \
   --Service:Name=product-service \
   --Service:Id=product-service-5101 \
-  --Service:Address=host.docker.internal \
+  --Service:Address=localhost \
+  --Service:HealthCheckAddress=host.docker.internal \
   --Service:Port=5101
 ```
 
@@ -315,7 +332,8 @@ dotnet run --project ProductService/ProductService.csproj \
   --urls http://localhost:5102 \
   --Service:Name=product-service \
   --Service:Id=product-service-5102 \
-  --Service:Address=host.docker.internal \
+  --Service:Address=localhost \
+  --Service:HealthCheckAddress=host.docker.internal \
   --Service:Port=5102
 ```
 
@@ -1059,7 +1077,8 @@ app.MapGet("/health", () => Results.Ok("Healthy"));
 常见原因：
 
 * `/health` 不通
-* 注册地址写成了错误的 `localhost`
+* Consul 探活地址写成了错误的 `localhost`
+* 服务注册地址不是 Gateway 能访问的地址
 * Consul 容器访问不到宿主机服务
 * 端口写错
 * 防火墙拦截
