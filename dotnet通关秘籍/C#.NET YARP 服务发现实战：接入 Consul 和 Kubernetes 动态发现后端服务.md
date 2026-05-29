@@ -1,5 +1,3 @@
-# C#.NET YARP 服务发现实战：接入 Consul 和 Kubernetes 动态发现后端服务
-
 ### 简介
 
 前面几篇已经把 `YARP` 的基础代理、JWT、CORS、OpenTelemetry 都串起来了。
