@@ -1,5 +1,3 @@
-# MySQL EXISTS 详解：存在性判断、NOT EXISTS 与实战示例
-
 ### 简介
 
 `EXISTS` 是 MySQL 里用来做存在性判断的语法。
