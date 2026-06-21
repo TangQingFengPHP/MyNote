@@ -85,6 +85,100 @@ systemd Timer 也不是任何场景都比 cron 合适。
 
 临时写一个简单的个人任务，cron 配置更短；服务器已经由 systemd 管理，并且任务需要日志、补跑、超时或依赖控制时，Timer 更容易维护。
 
+### 最小 Demo：每分钟输出一次当前时间
+
+先用一个最小示例跑通完整流程。
+
+这个示例不写脚本，也不使用额外配置，只做一件事：
+
+```text
+每分钟执行一次 date 命令，并把输出写入 systemd 日志。
+```
+
+#### 创建 Service
+
+创建 `/etc/systemd/system/show-time.service`：
+
+```bash
+sudo vim /etc/systemd/system/show-time.service
+```
+
+内容如下：
+
+```ini
+[Unit]
+Description=Show current time
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/date
+```
+
+这里只需要关注两个配置：
+
+* `Type=oneshot`：命令执行完成后，服务结束
+* `ExecStart=/usr/bin/date`：指定需要执行的命令
+
+#### 创建 Timer
+
+创建 `/etc/systemd/system/show-time.timer`：
+
+```bash
+sudo vim /etc/systemd/system/show-time.timer
+```
+
+内容如下：
+
+```ini
+[Unit]
+Description=Run show-time every minute
+
+[Timer]
+OnCalendar=minutely
+
+[Install]
+WantedBy=timers.target
+```
+
+`OnCalendar=minutely` 表示每分钟触发一次。
+
+Timer 和 Service 都叫 `show-time`，所以 `show-time.timer` 会自动触发 `show-time.service`。
+
+#### 启动 Timer
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now show-time.timer
+```
+
+查看下一次执行时间：
+
+```bash
+systemctl list-timers show-time.timer
+```
+
+不想等待下一分钟，可以手动执行一次 Service：
+
+```bash
+sudo systemctl start show-time.service
+```
+
+查看输出：
+
+```bash
+journalctl -u show-time.service -n 10 --no-pager
+```
+
+完整流程只有三步：
+
+```text
+创建 .service
+创建 .timer
+启动 .timer
+```
+
+理解这个最小示例后，再继续看各种时间规则和进阶配置。
+
 ### 两类时间：日历时间和单调时间
 
 Timer 的时间规则主要分成两类。
@@ -130,7 +224,7 @@ OnUnitInactiveSec=1h
 
 单调时钟不会受到手动修改系统时间的影响，更适合固定间隔任务。
 
-### `.service` 文件负责什么？
+### 常用配置：`.service` 文件负责什么？
 
 定时任务真正执行的命令写在 `.service` 中。
 
@@ -179,7 +273,7 @@ ExecStart=/bin/bash -c 'date >> /var/log/task.log'
 
 复杂逻辑更适合放进独立脚本。单元文件只保留启动参数，排错和复用都会更简单。
 
-### `.timer` 文件负责什么？
+### 常用配置：`.timer` 文件负责什么？
 
 一个常见的 Timer 如下：
 
@@ -189,9 +283,6 @@ Description=Run application report every day
 
 [Timer]
 OnCalendar=*-*-* 02:30:00
-Persistent=true
-RandomizedDelaySec=10min
-AccuracySec=1min
 
 [Install]
 WantedBy=timers.target
@@ -308,7 +399,7 @@ OnUnitInactiveSec=30min
 
 同一个 Timer 中可以配置多个触发器。多个触发器采用“任意一个到期就触发”的关系，不需要全部满足。
 
-### Persistent：错过任务后补跑
+### 进阶配置：Persistent 错过任务后补跑
 
 服务器每天 02:30 备份，但 02:00 到 04:00 处于关机状态，普通日历任务会错过这次执行。
 
@@ -329,7 +420,7 @@ Persistent=true
 
 备份、账单生成和证书检查等任务通常适合开启；高频监控和临时状态采集未必需要补跑。
 
-### AccuracySec：精度不是越高越好
+### 进阶配置：AccuracySec 精度不是越高越好
 
 Timer 默认允许 systemd 在一定精度窗口内合并唤醒，以减少不必要的 CPU 唤醒和能耗。
 
@@ -347,7 +438,7 @@ AccuracySec=1s
 
 普通备份、清理任务没有必要追求毫秒或微秒精度。系统繁忙、服务依赖未满足或目标服务仍在运行时，即使精度设置很高，也不能保证程序准点开始执行。
 
-### RandomizedDelaySec：给任务加一点随机延迟
+### 进阶配置：RandomizedDelaySec 给任务加一点随机延迟
 
 多台服务器都在整点备份，可能同时请求数据库、对象存储或监控接口，瞬间形成流量尖峰。
 
