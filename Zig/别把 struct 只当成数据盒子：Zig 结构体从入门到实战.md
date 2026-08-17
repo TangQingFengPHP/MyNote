@@ -274,6 +274,61 @@ pub fn main() !void {
 
 这个例子里，`Account` 没有隐藏状态，也没有隐式分配内存。余额变化必须经过 `deposit`、`withdraw` 或 `transfer`，业务规则集中在结构体方法中，调用处只负责组织流程。
 
+### `enum` 和 `error` 从哪里来
+
+账户类型由这段代码定义：
+
+```zig
+const AccountKind = enum {
+    checking,
+    savings,
+};
+```
+
+因此，下面两种写法才是有效值：
+
+```zig
+const a = Account{ .id = 1, .owner = "A", .kind = .checking };
+const b = Account{ .id = 2, .owner = "B", .kind = .savings };
+```
+
+如果枚举只写成：
+
+```zig
+const AccountKind = enum { checking };
+```
+
+再使用 `.savings` 就会出现 `enum ... has no member named 'savings'`。修复方式是在枚举中补上 `savings`，或者把使用处统一改为已经声明的成员名称。
+
+`error.InvalidAmount` 和 `error.InsufficientFunds` 不是标准库里预先存在的变量，而是 Zig 的错误值。原 demo 使用了错误集合自动推导：
+
+```zig
+pub fn withdraw(self: *Account, amount: i64) !void {
+    if (amount < 0) return error.InvalidAmount;
+    if (self.balance < amount) return error.InsufficientFunds;
+    self.balance -= amount;
+}
+```
+
+返回类型中的 `!void` 表示“成功时返回 `void`，失败时返回一个错误”。函数体里出现的 `error.InvalidAmount` 和 `error.InsufficientFunds` 会被 Zig 收集到该函数的错误集合中，因此不需要另外声明。
+
+也可以显式声明错误集合，让错误名称集中展示：
+
+```zig
+const AccountError = error{
+    InvalidAmount,
+    InsufficientFunds,
+};
+
+fn withdraw(self: *Account, amount: i64) AccountError!void {
+    if (amount < 0) return error.InvalidAmount;
+    if (self.balance < amount) return error.InsufficientFunds;
+    self.balance -= amount;
+}
+```
+
+两种写法的运行效果相同。小 demo 使用自动推导更简洁，公共模块或错误类型较多的项目通常会显式声明错误集合。
+
 ## 五、结构体是值类型：什么时候传值，什么时候传指针
 
 函数参数默认按值传递：
