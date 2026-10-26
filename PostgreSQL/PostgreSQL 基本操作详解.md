@@ -471,23 +471,7 @@ ON orders USING GIN (metadata);
 
 PostgreSQL 的层级关系：
 
-PostgreSQL 实例
-
-testdb
-
-public Schema
-
-自定义 Schema
-
-表、视图、函数等
-
-businessdb
-
-public Schema
-
-自定义 Schema
-
-表、视图、函数等
+![alt text](/images/pgsql/image.png)
 
 创建 Schema：
 
